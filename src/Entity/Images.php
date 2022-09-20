@@ -18,7 +18,7 @@ class Images
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\ManyToMany(targetEntity: articles::class, inversedBy: 'images')]
+    #[ORM\ManyToMany(targetEntity: Articles::class, inversedBy: 'images')]
     private Collection $articles;
 
     public function __construct()

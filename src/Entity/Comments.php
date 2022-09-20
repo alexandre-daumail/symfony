@@ -21,11 +21,11 @@ class Comments
 
     #[ORM\ManyToOne(inversedBy: 'comments')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?articles $article = null;
+    private ?Articles $article = null;
 
     #[ORM\ManyToOne(inversedBy: 'comments')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?users $users = null;
+    private ?Users $users = null;
 
     public function getId(): ?int
     {
