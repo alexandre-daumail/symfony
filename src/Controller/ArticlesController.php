@@ -16,4 +16,11 @@ class ArticlesController extends AbstractController
             'controller_name' => 'ArticlesController',
         ]);
     }
+
+    #[Route('/slug', name: 'article')]
+    public function article(): Response
+    {
+        return $this->render('articles/article.html.twig');
+    }
+
 }
