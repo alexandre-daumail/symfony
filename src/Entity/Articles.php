@@ -39,6 +39,7 @@ class Articles
     {
         $this->images = new ArrayCollection();
         $this->comments = new ArrayCollection();
+        $this->created_at = new \DateTimeImmutable();
     }
 
     public function getId(): ?int
