@@ -3,16 +3,19 @@
 namespace App\Entity;
 
 use App\Repository\ArticlesRepository;
+use App\Entity\Trait\CreatedAtTrait;
+use App\Entity\Trait\SlugTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use App\Entity\Trait\CreatedAtTrait;
 
 
 #[ORM\Entity(repositoryClass: ArticlesRepository::class)]
 class Articles
 {
     use CreatedAtTrait;
+    use SlugTrait;
 
     #[ORM\Id]
     #[ORM\GeneratedValue]
