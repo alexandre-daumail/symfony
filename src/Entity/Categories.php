@@ -3,7 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\CategoriesRepository;
-use App\Entity\Trait\SlugTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -11,8 +10,6 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: CategoriesRepository::class)]
 class Categories
 {
-    use SlugTrait;
-
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -23,6 +20,9 @@ class Categories
 
     #[ORM\OneToMany(mappedBy: 'categories', targetEntity: Articles::class, orphanRemoval: true)]
     private Collection $articles;
+
+    #[ORM\Column(length: 255)]
+    private ?string $slug = null;
 
     public function __construct()
     {
@@ -75,4 +75,17 @@ class Categories
 
         return $this;
     }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): self
+    {
+        $this->slug = $slug;
+
+        return $this;
+    }
+
 }

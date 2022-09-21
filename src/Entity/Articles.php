@@ -4,7 +4,6 @@ namespace App\Entity;
 
 use App\Repository\ArticlesRepository;
 use App\Entity\Trait\CreatedAtTrait;
-use App\Entity\Trait\SlugTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -13,42 +12,45 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: ArticlesRepository::class)]
 class Articles
 {
-    use CreatedAtTrait;
-    use SlugTrait;
-
+    
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
-
+    
     #[ORM\Column(length: 100)]
     private ?string $title = null;
-
+    
     #[ORM\Column(length: 2000)]
     private ?string $content = null;
-
+    
     #[ORM\ManyToOne(inversedBy: 'articles')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Categories $categories = null;
-
+    
     #[ORM\ManyToMany(targetEntity: Images::class, mappedBy: 'articles')]
     private Collection $images;
-
+    
     #[ORM\OneToMany(mappedBy: 'article', targetEntity: Comments::class, orphanRemoval: true)]
     private Collection $comments;
-
+    
+    use CreatedAtTrait;
+    
+    #[ORM\Column(length: 255)]
+    private ?string $slug = null;
+    
     public function __construct()
     {
         $this->images = new ArrayCollection();
         $this->comments = new ArrayCollection();
         $this->created_at = new \DateTimeImmutable();
     }
-
+    
     public function getId(): ?int
     {
         return $this->id;
     }
-
+    
     public function getTitle(): ?string
     {
         return $this->title;
@@ -138,6 +140,18 @@ class Articles
                 $comment->setArticle(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): self
+    {
+        $this->slug = $slug;
 
         return $this;
     }
