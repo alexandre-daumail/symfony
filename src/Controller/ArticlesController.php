@@ -6,6 +6,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+use App\Entity\Articles;
+
 #[Route('/articles', name: 'articles_')]
 class ArticlesController extends AbstractController
 {
@@ -17,10 +19,10 @@ class ArticlesController extends AbstractController
         ]);
     }
 
-    #[Route('/slug', name: 'article')]
-    public function article(): Response
+    #[Route('/{slug}', name: 'article')]
+    public function article(Articles $article): Response
     {
-        return $this->render('articles/article.html.twig');
+        return $this->render('articles/article.html.twig', compact('article'));
     }
 
 }

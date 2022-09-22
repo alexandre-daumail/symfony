@@ -26,7 +26,7 @@ class ArticlesFixtures extends Fixture implements DependentFixtureInterface
             $article = new Articles();
             $article->setTitle($faker->text(5));
             $article->setContent($faker->text());
-            $article->setSlug($this->slugger->slug($article->getTitle()));
+            $article->setSlug($this->slugger->slug($article->getTitle())->lower());
 
             $category = $this->getReference('cat-' . rand(1, 4));
             $article->setCategories($category);
