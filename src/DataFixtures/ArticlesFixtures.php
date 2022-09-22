@@ -8,8 +8,11 @@ use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Faker;
 
+use App\DataFixtures\CategoriesFixture;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
-class ArticlesFixtures extends Fixture
+
+class ArticlesFixtures extends Fixture implements DependentFixtureInterface
 {
     public function __construct(private SluggerInterface $slugger){}
 
@@ -25,10 +28,21 @@ class ArticlesFixtures extends Fixture
             $article->setContent($faker->text());
             $article->setSlug($this->slugger->slug($article->getTitle()));
 
+            $category = $this->getReference('cat-' . rand(1, 4));
+            $article->setCategories($category);
+
             $manager->persist($article);
 
         }
 
         $manager->flush();
+
+    }
+
+    public function getDependencies()
+    {
+        return [
+            CategoriesFixture::class,
+        ];
     }
 }

@@ -10,6 +10,8 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 
 class CategoriesFixture extends Fixture
 {
+    private $counter = 1 ;
+
     public function __construct(private SluggerInterface $slugger){}
     
     public function load(ObjectManager $manager): void
@@ -28,6 +30,9 @@ class CategoriesFixture extends Fixture
         $category->setName($name);
         $category->setSlug($this->slugger->slug($category->getName())->lower());
         $manager->persist($category);
+
+        $this->addReference('cat-'.$this->counter, $category);
+        $this->counter++;
 
         return $category;
     }
