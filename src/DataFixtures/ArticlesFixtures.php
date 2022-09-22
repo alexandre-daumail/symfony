@@ -24,7 +24,7 @@ class ArticlesFixtures extends Fixture implements DependentFixtureInterface
         for($i = 1; $i <= 20; $i++) { 
 
             $article = new Articles();
-            $article->setTitle($faker->text(5));
+            $article->setTitle($faker->sentence(1));
             $article->setContent($faker->text());
             $article->setSlug($this->slugger->slug($article->getTitle())->lower());
 
