@@ -8,7 +8,7 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
-class CategoriesFixture extends Fixture
+class CategoriesFixtures extends Fixture
 {
     private $counter = 1 ;
 

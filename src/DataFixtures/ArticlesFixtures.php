@@ -8,7 +8,7 @@ use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Faker;
 
-use App\DataFixtures\CategoriesFixture;
+use App\DataFixtures\CategoriesFixtures;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
 
@@ -31,6 +31,8 @@ class ArticlesFixtures extends Fixture implements DependentFixtureInterface
             $category = $this->getReference('cat-' . rand(1, 4));
             $article->setCategories($category);
 
+            $this->setReference('art-'. $i, $article);
+
             $manager->persist($article);
 
         }
@@ -42,7 +44,7 @@ class ArticlesFixtures extends Fixture implements DependentFixtureInterface
     public function getDependencies()
     {
         return [
-            CategoriesFixture::class,
+            CategoriesFixtures::class,
         ];
     }
 }
