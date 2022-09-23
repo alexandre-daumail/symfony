@@ -25,11 +25,4 @@ final class Version20220923094903 extends AbstractMigration
         $this->addSql('ALTER TABLE users ADD created_at DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL COMMENT \'(DC2Type:datetime_immutable)\'');
     }
 
-    public function down(Schema $schema): void
-    {
-        // this down() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE articles DROP created_at');
-        $this->addSql('ALTER TABLE comments DROP created_at');
-        $this->addSql('ALTER TABLE users DROP created_at');
-    }
 }

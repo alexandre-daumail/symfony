@@ -28,6 +28,9 @@ class Comments
     #[ORM\ManyToOne(inversedBy: 'comments')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Users $users = null;
+
+    #[ORM\Column]
+    private ?bool $active = null;
     
     public function __construct()
     {
@@ -73,6 +76,18 @@ class Comments
     public function setUsers(?users $users): self
     {
         $this->users = $users;
+
+        return $this;
+    }
+
+    public function isActive(): ?bool
+    {
+        return $this->active;
+    }
+
+    public function setActive(bool $active): self
+    {
+        $this->active = $active;
 
         return $this;
     }
