@@ -44,6 +44,9 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'users', targetEntity: Comments::class, orphanRemoval: true)]
     private Collection $comments;
 
+    #[ORM\ManyToOne(inversedBy: 'author')]
+    private ?Articles $posts = null;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
@@ -171,6 +174,18 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
                 $comment->setUsers(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getPosts(): ?Articles
+    {
+        return $this->posts;
+    }
+
+    public function setPosts(?Articles $posts): self
+    {
+        $this->posts = $posts;
 
         return $this;
     }

@@ -38,12 +38,16 @@ class Articles
     
     #[ORM\Column(length: 255)]
     private ?string $slug = null;
+
+    #[ORM\OneToMany(mappedBy: 'posts', targetEntity: Users::class)]
+    private Collection $author;
     
     public function __construct()
     {
         $this->images = new ArrayCollection();
         $this->comments = new ArrayCollection();
         $this->created_at = new \DateTimeImmutable();
+        $this->author = new ArrayCollection();
     }
     
     public function getId(): ?int
@@ -152,6 +156,36 @@ class Articles
     public function setSlug(string $slug): self
     {
         $this->slug = $slug;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Users>
+     */
+    public function getAuthor(): Collection
+    {
+        return $this->author;
+    }
+
+    public function addAuthor(Users $author): self
+    {
+        if (!$this->author->contains($author)) {
+            $this->author->add($author);
+            $author->setPosts($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAuthor(Users $author): self
+    {
+        if ($this->author->removeElement($author)) {
+            // set the owning side to null (unless already changed)
+            if ($author->getPosts() === $this) {
+                $author->setPosts(null);
+            }
+        }
 
         return $this;
     }
