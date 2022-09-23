@@ -9,6 +9,7 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 use Faker;
 
 use App\DataFixtures\CategoriesFixtures;
+use App\DataFixtures\UsersFixtures;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
 
@@ -33,6 +34,9 @@ class ArticlesFixtures extends Fixture implements DependentFixtureInterface
 
             $this->setReference('art-'. $i, $article);
 
+            $author = $this->getReference('author-' . rand(1, 4));
+            $article->addAuthor($author);
+
             $manager->persist($article);
 
         }
@@ -45,6 +49,7 @@ class ArticlesFixtures extends Fixture implements DependentFixtureInterface
     {
         return [
             CategoriesFixtures::class,
+            UsersFixtures::class
         ];
     }
 }

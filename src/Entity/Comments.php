@@ -9,30 +9,33 @@ use App\Entity\Trait\CreatedAtTrait;
 #[ORM\Entity(repositoryClass: CommentsRepository::class)]
 class Comments
 {
-    use CreatedAtTrait;
-
+    
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
-
+    
     #[ORM\Column(length: 255)]
     private ?string $content = null;
-
+    
+    #[ORM\Column(options:['default' => 'CURRENT_TIMESTAMP'])]
+    private ?\DateTimeImmutable $created_at = null;
+    
     #[ORM\ManyToOne(inversedBy: 'comments')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Articles $article = null;
-
+    
     #[ORM\ManyToOne(inversedBy: 'comments')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Users $users = null;
-
+    
     public function __construct()
     {
         $this->created_at = new \DateTimeImmutable();
     }
- 
-
+    
+    use CreatedAtTrait;
+    
     public function getId(): ?int
     {
         return $this->id;

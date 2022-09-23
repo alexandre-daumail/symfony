@@ -15,44 +15,48 @@ use App\Entity\Trait\CreatedAtTrait;
 #[UniqueEntity(fields: ['email'], message: 'Il y a déjà un compte enregistré avec cette adresse email')]
 class Users implements UserInterface, PasswordAuthenticatedUserInterface
 {
-    use CreatedAtTrait;
-
+    
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
-
+    
     #[ORM\Column(length: 180, unique: true)]
     private ?string $email = null;
-
+    
     #[ORM\Column]
     private array $roles = [];
-
+    
     /**
      * @var string The hashed password
      */
     #[ORM\Column]
     private ?string $password = null;
-
+    
     #[ORM\Column(length: 100)]
     private ?string $lastname = null;
-
+    
     #[ORM\Column(length: 100)]
     private ?string $firstname = null;
+    
+    #[ORM\Column(options:['default' => 'CURRENT_TIMESTAMP'])]
+    private ?\DateTimeImmutable $created_at = null;
 
 
     #[ORM\OneToMany(mappedBy: 'users', targetEntity: Comments::class, orphanRemoval: true)]
     private Collection $comments;
-
+    
     #[ORM\ManyToOne(inversedBy: 'author')]
     private ?Articles $posts = null;
-
+    
     public function __construct()
     {
         $this->comments = new ArrayCollection();
         $this->created_at = new \DateTimeImmutable();
     }
-
+    
+    use CreatedAtTrait;
+    
     public function getId(): ?int
     {
         return $this->id;

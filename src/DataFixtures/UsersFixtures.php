@@ -20,7 +20,7 @@ class UsersFixtures extends Fixture
     {
         $faker = Faker\Factory::create('fr-FR');
 
-        for ($i = 0; $i <= 3; $i++) {
+        for ($i = 1; $i <= 4; $i++) {
 
         $admin = new Users();
         $admin->setEmail($faker->email);
@@ -30,6 +30,8 @@ class UsersFixtures extends Fixture
             $this->passwordEncoder->hashPassword($admin, 'admin')
         );
         $admin->setRoles(['ROLE_ADMIN']);
+        $this->setReference('author-'. $i, $admin);
+
 
         $manager->persist($admin);
         }

@@ -23,7 +23,13 @@ class Articles
     
     #[ORM\Column(length: 2000)]
     private ?string $content = null;
-    
+
+    #[ORM\Column(length: 255)]
+    private ?string $slug = null;
+
+    #[ORM\Column(options:['default' => 'CURRENT_TIMESTAMP'])]
+    private ?\DateTimeImmutable $created_at = null;
+
     #[ORM\ManyToOne(inversedBy: 'articles')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Categories $categories = null;
@@ -34,11 +40,8 @@ class Articles
     #[ORM\OneToMany(mappedBy: 'article', targetEntity: Comments::class, orphanRemoval: true)]
     private Collection $comments;
     
-    use CreatedAtTrait;
     
-    #[ORM\Column(length: 255)]
-    private ?string $slug = null;
-
+    
     #[ORM\OneToMany(mappedBy: 'posts', targetEntity: Users::class)]
     private Collection $author;
     
@@ -49,6 +52,8 @@ class Articles
         $this->created_at = new \DateTimeImmutable();
         $this->author = new ArrayCollection();
     }
+    
+    use CreatedAtTrait;
     
     public function getId(): ?int
     {

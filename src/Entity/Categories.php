@@ -18,14 +18,15 @@ class Categories
     #[ORM\Column(length: 100)]
     private ?string $name = null;
 
-    #[ORM\OneToMany(mappedBy: 'categories', targetEntity: Articles::class, orphanRemoval: true)]
-    private Collection $articles;
-
     #[ORM\Column(length: 255)]
     private ?string $slug = null;
 
     #[ORM\Column(nullable: true)]
     private ?int $categoryOrder = null;
+
+    #[ORM\OneToMany(mappedBy: 'categories', targetEntity: Articles::class, orphanRemoval: true)]
+    private Collection $articles;
+
 
     public function __construct()
     {
